@@ -51,4 +51,17 @@ public class JsonColors {
 		int ndx = new Random().nextInt(colors.size());
 		return Color.decode(colors.get(ndx).getColor());
 	}
+
+	public Color[] nextRandomColors() {
+		int ndx = new Random().nextInt(colors.size());
+		var color1 = Color.decode(colors.get(ndx).getColor());
+
+		ndx += colors.size() / 2;
+		if (ndx >= colors.size()) {
+			ndx -= colors.size();
+		}
+		var color2 = Color.decode(colors.get(ndx).getColor());
+
+		return new Color[]{color1, color2};
+	}
 }

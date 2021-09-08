@@ -17,6 +17,10 @@ public interface RandomColor {
 
 	Color get();
 
+	default Color[] getPair() {
+		return new Color[] {get(), get()};
+	}
+
 	public static class RgbRandomColor implements RandomColor {
 		private final Random rnd = new Random();
 
@@ -49,6 +53,11 @@ public interface RandomColor {
 		@Override
 		public Color get() {
 			return jsonColors.nextRandomColor();
+		}
+
+		@Override
+		public Color[] getPair() {
+			return jsonColors.nextRandomColors();
 		}
 	}
 }

@@ -21,9 +21,13 @@ public class SuprImage {
 				RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
 
-		final Color backgroundColor = RandomColor.hsb().get();
+//		final Color backgroundColor = RandomColor.hsb().get();
 //		final Color penColor = new InverseColor().hsb(backgroundColor);
-		final Color penColor = RandomColor.spectrum().get();
+//		final Color penColor = RandomColor.spectrum().get();
+
+		final Color[] colors = RandomColor.spectrum().getPair();
+		final Color backgroundColor = colors[0];
+		final Color penColor = colors[1];
 
 		// draw
 
