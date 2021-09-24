@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class JsonColors {
 
@@ -37,7 +38,7 @@ public class JsonColors {
 				.parseAsList(json, SpectrumColor.class)
 				.stream()
 				.filter(it -> !it.used)
-				.toList();
+				.collect(Collectors.toUnmodifiableList());
 	}
 
 	@SneakyThrows

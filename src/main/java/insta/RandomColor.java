@@ -5,13 +5,13 @@ import java.util.Random;
 
 public interface RandomColor {
 
-	static RandomColor rgb() {
+	public static RandomColor rgb() {
 		return new RgbRandomColor();
 	}
-	static RandomColor hsb() {
+	public static RandomColor hsb() {
 		return new HsbRandomColor();
 	}
-	static RandomColor spectrum() {
+	public static RandomColor spectrum() {
 		return new SpectrumRandomColor();
 	}
 
@@ -21,7 +21,7 @@ public interface RandomColor {
 		return new Color[] {get(), get()};
 	}
 
-	class RgbRandomColor implements RandomColor {
+	public static class RgbRandomColor implements RandomColor {
 		private final Random rnd = new Random();
 
 		@Override
@@ -34,7 +34,7 @@ public interface RandomColor {
 		}
 	}
 
-	class HsbRandomColor implements RandomColor {
+	public static class HsbRandomColor implements RandomColor {
 		private final Random rnd = new Random();
 		@Override
 		public Color get() {
@@ -46,7 +46,7 @@ public interface RandomColor {
 		}
 	}
 
-	class SpectrumRandomColor implements RandomColor {
+	public static class SpectrumRandomColor implements RandomColor {
 
 		private final JsonColors jsonColors = new JsonColors();
 
