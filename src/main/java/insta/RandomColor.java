@@ -11,6 +11,9 @@ public interface RandomColor {
 	public static RandomColor hsb() {
 		return new HsbRandomColor();
 	}
+	public static RandomColor hsb2() {
+		return new HsbRandomColor2();
+	}
 	public static RandomColor spectrum() {
 		return new SpectrumRandomColor();
 	}
@@ -45,6 +48,19 @@ public interface RandomColor {
 			return Color.getHSBColor(hue, saturation, luminance);
 		}
 	}
+
+	public static class HsbRandomColor2 implements RandomColor {
+		private final Random rnd = new Random();
+		@Override
+		public Color get() {
+			final float hue = rnd.nextFloat();
+			final float saturation = 0.9f + rnd.nextFloat() / 10.0f;  // 1.0 for brilliant, 0.0 for dull
+			final float luminance = 0.8f + rnd.nextFloat() / 4f;   // 1.0 for brighter, 0.0 for black
+
+			return Color.getHSBColor(hue, saturation, luminance);
+		}
+	}
+
 
 	public static class SpectrumRandomColor implements RandomColor {
 
