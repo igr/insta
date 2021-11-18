@@ -35,7 +35,7 @@ public class SuprImage {
 		g.setColor(backgroundColor);
 		g.fill(new Rectangle(0, 0, 512, 512));
 
-		Font font = new Font("American Typewriter", Font.BOLD, 350);
+		Font font = new Font("American Typewriter", Font.BOLD, 250);
 		g.setFont(font);
 
 		Font closestFont = scaleFont(g, font, text);
@@ -47,7 +47,7 @@ public class SuprImage {
 		int y = 256 - (fm.getHeight() / 2) + fm.getAscent();
 
 		g.setColor(penColor);
-		g.drawString(text, x + 20, y);
+		g.drawString(text, x, y);  // magic, use + 20 to center
 
 		g.dispose();
 
