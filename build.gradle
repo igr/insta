@@ -26,7 +26,7 @@ dependencies {
 	implementation 'io.github.cdimascio:dotenv-java:2.2.0'
 	implementation 'org.jodd:jodd-util:6.0.1'
 	implementation 'org.jodd:jodd-json:6.0.3'
-	implementation 'com.github.instagram4j:instagram4j:2.0.6'
+	implementation 'com.github.instagram4j:instagram4j:2.0.7'
 	implementation 'com.oblac:nomen-est-omen:2.1.0'
 	compileOnly 'org.projectlombok:lombok:1.18.20'
 	annotationProcessor 'org.projectlombok:lombok:1.18.20'

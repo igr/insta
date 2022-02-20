@@ -14,11 +14,11 @@ public class Do {
 
 		Text text = new Text();
 
-		byte[] imageBytes = new SuprImage().createImage(text.get());
-		FileUtil.writeBytes("story/" + text.index() + ".png", imageBytes);
+		var image = new SuprImage().createImage(text.get());
+		image.savePng("story/" + text.index() + ".png");
 
 		InstaPost instagram = new InstaPost();
-		instagram.postImage(imageBytes, "#" + text.get());
+		instagram.postImage(image.toJpegBytes(), "#" + text.get());
 
 		text.commit();
 		System.out.println("Word " + text.index() + " posted. Done.");

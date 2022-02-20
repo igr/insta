@@ -1,6 +1,12 @@
 package insta;
 
+import jodd.io.FileUtil;
+
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -14,7 +20,25 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class SuprImage {
-	public byte[] createImage(String text) throws IOException {
+
+	public static class ImageBytes {
+		private final BufferedImage img;
+		private ImageBytes(BufferedImage img) {
+			this.img = img;
+		}
+
+		public byte[] toJpegBytes() throws IOException {
+			return compressImageToByteArray(img, 1f);
+		}
+
+		public void savePng(String dest) throws IOException {
+			var baos = new ByteArrayOutputStream();
+			ImageIO.write(img, "png", baos);
+			FileUtil.writeBytes(dest, baos.toByteArray());
+		}
+	}
+
+	public ImageBytes createImage(String text) throws IOException {
 		boolean isChapter = false;
 		if (text.startsWith("## ")) {
 			text = text.substring(3);
@@ -64,9 +88,7 @@ public class SuprImage {
 		}
 		g.dispose();
 
-		var baos = new ByteArrayOutputStream();
-		ImageIO.write(img, "png", baos);
-		return baos.toByteArray();
+		return new ImageBytes(img);
 	}
 
 	private static Font scaleFont(Graphics2D g2D, Font font, String text) {
@@ -84,5 +106,25 @@ public class SuprImage {
 		double scaleX = (double) targetWidth / width;
 		double scaleY = (double) targetHeight / height;
 		return Math.min(scaleX, scaleY);
+	}
+
+	/**
+	 * Saves jpeg image with specific quality. "1f" corresponds to 100% , "0.7f" corresponds to 70%
+	 */
+	private static byte[] compressImageToByteArray(BufferedImage image, float quality) throws IOException {
+		ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+		ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
+		jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+		jpgWriteParam.setCompressionQuality(quality);
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ImageOutputStream ios = ImageIO.createImageOutputStream(bos);
+		jpgWriter.setOutput(ios);
+		IIOImage outputImage = new IIOImage(image, null, null);
+		jpgWriter.write(null, outputImage, jpgWriteParam);
+
+		byte[] result = bos.toByteArray();
+		jpgWriter.dispose();
+		return result;
 	}
 }
