@@ -15,27 +15,35 @@ import java.io.IOException;
 
 public class SuprImage {
 	public byte[] createImage(String text) throws IOException {
+		boolean isChapter = false;
+		if (text.startsWith("## ")) {
+			text = text.substring(3);
+			isChapter = true;
+		}
+
 		BufferedImage img = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = img.createGraphics();
 		g.setRenderingHint(
 				RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
 
-		final Color backgroundColor = RandomColor.hsb2().get();
-//		final Color penColor = new InverseColor().hsb(backgroundColor);
-//		final Color penColor = RandomColor.spectrum().get();
-		final Color penColor = new InverseColor().hsb(backgroundColor);
-
-//		final Color[] colors = RandomColor.spectrum().getPair();
-//		final Color backgroundColor = colors[0];
-//		final Color penColor = colors[1];
+		final Color backgroundColor;
+		if (isChapter) {
+			backgroundColor = new Color(0x4d194d);
+		} else {
+			backgroundColor = new Color(0x272640);
+		}
+		final Color penColor = new Color(0xffffff);
+		final Color titleColor = new Color(0x065a60);
 
 		// draw
 
 		g.setColor(backgroundColor);
 		g.fill(new Rectangle(0, 0, 512, 512));
 
-		Font font = new Font("American Typewriter", Font.BOLD, 250);
+//		Font font = new Font("AppleMyungjo", Font.BOLD, 250);
+//		Font font = new Font("Georgia", Font.BOLD, 250);
+		Font font = new Font("IBM Plex Serif", Font.BOLD, 250);
 		g.setFont(font);
 
 		Font closestFont = scaleFont(g, font, text);
@@ -49,10 +57,15 @@ public class SuprImage {
 		g.setColor(penColor);
 		g.drawString(text, x, y);  // magic, use + 20 to center
 
+		if (isChapter) {
+			g.setColor(titleColor);
+			g.fill(new Rectangle(0, 0, 512, 40));
+			g.fill(new Rectangle(0, 512-40, 512, 512));
+		}
 		g.dispose();
 
 		var baos = new ByteArrayOutputStream();
-		ImageIO.write(img, "jpg", baos);
+		ImageIO.write(img, "png", baos);
 		return baos.toByteArray();
 	}
 

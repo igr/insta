@@ -4,3 +4,4 @@
 build
 /foo.jpg
 .env
+story/*
