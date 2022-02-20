@@ -1,7 +1,6 @@
 package insta;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import jodd.io.FileUtil;
 
 import java.io.IOException;
 
